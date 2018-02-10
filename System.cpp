@@ -1,29 +1,6 @@
 #include "System.h"
 #include <thread>
 
-void System::loopOverMat(std::vector<Planet> &lst, int beg, int end,
-						 std::function<void(Planet &)> func) {
-
-	for (int k = beg; k != end; ++k)
-		func(lst[k]);
-}
-
-void System::parallelize(std::function<void(Planet &)> func) {
-	static std::vector<std::thread> thrds(Settings::Threads);
-
-	int cnt = 0, k = 0;
-	int len = std::min(Settings::Threads, (int)lst.size());
-	int shift = std::max(1, (int)lst.size() / Settings::Threads);
-
-	for (; cnt < len - 1; k += shift)
-		thrds[cnt++] = std::thread(loopOverMat, ref(lst), k, k + shift, func);
-
-	thrds[cnt++] = std::thread(loopOverMat, ref(lst), k, lst.size(), func);
-
-	while (cnt)
-		thrds[--cnt].join();
-}
-
 System::System() {
 	sf::VideoMode vm = sf::VideoMode::getDesktopMode();
 
@@ -38,9 +15,27 @@ System::System() {
 	window.setFramerateLimit(75);
 }
 
-void System::addPlanet(std::string name, long double r, long double m, Dot pos,
-					   Dot dpos) {
-	lst.push_back(Planet(name, r, m, pos, dpos));
+void System::loopOverMat(int beg, int end, std::function<void(Planet &)> func) {
+
+	for (int k = beg; k != end; ++k)
+		func(lst[k]);
+}
+
+void System::parallelize(std::function<void(Planet &)> func) {
+	static std::vector<std::thread> thrds(Settings::Threads);
+
+	int cnt = 0, k = 0;
+	int len = std::min(Settings::Threads, (int)lst.size());
+	int shift = std::max(1, (int)lst.size() / Settings::Threads);
+
+	for (; cnt < len - 1; k += shift)
+		thrds[cnt++] =
+			std::thread(&System::loopOverMat, this, k, k + shift, func);
+
+	thrds[cnt++] = std::thread(&System::loopOverMat, this, k, lst.size(), func);
+
+	while (cnt)
+		thrds[--cnt].join();
 }
 
 void System::start() {

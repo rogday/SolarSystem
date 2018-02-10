@@ -9,8 +9,7 @@ void Planet::calc(std::vector<Planet> &lst) {
 		if (this == &plnt)
 			continue;
 
-		R = std::hypot((long double)pos.x - plnt.pos.x,
-					   (long double)pos.y - plnt.pos.y);
+		R = std::hypot(pos.x - plnt.pos.x, pos.y - plnt.pos.y);
 
 		// if (R < 1e-11)
 		//	continue;

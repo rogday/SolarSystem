@@ -9,12 +9,15 @@ class System {
 	std::vector<Planet> lst;
 
   private:
-	static void loopOverMat(std::vector<Planet> &, int, int,
-							std::function<void(Planet &)>);
+	void loopOverMat(int, int, std::function<void(Planet &)>);
 	void parallelize(std::function<void(Planet &)>);
 
   public:
 	System();
-	void addPlanet(std::string, long double, long double, Dot, Dot);
+
+	void addPlanet(std::string name, int r, double m, Dot pos, Dot dpos) {
+		lst.push_back(Planet(name, r, m, pos, dpos));
+	};
+
 	void start();
 };

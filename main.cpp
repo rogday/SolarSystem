@@ -4,7 +4,9 @@
 
 int main(int argc, char const *argv[]) {
 	srand(time(nullptr));
+
 	std::cout << "Heoll, wrold!" << std::endl;
+
 	System sys;
 
 	const int N = 20;
