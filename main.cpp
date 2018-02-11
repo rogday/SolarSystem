@@ -2,22 +2,27 @@
 
 #include <iostream>
 
+using namespace std;
+
 int main(int argc, char const *argv[]) {
 	srand(time(nullptr));
 
-	std::cout << "Heoll, wrold!" << std::endl;
+	cout << "Heoll, wrold!" << endl;
 
 	System sys;
 
-	const int N = 20;
+	int N = 42;
+
+	if (argc == 2)
+		N = atoi(argv[1]);
 
 	for (int i = 0; i < N; ++i) {
-		long double m = 1e9 + rand() % 10000 - 5000;
-		sys.addPlanet(
-			"Sun", 8 * m / (1e9 + 5000), m,
-			{(long double)(rand() % 512), (long double)(rand() % 512)},
-			{(long double)(rand() % 5 - 2), (long double)(rand() % 5 - 2)});
+		sys.addPlanet("Sun", 8, 1e6 + rand() % 10000 - 5000,
+					  {(double)(rand() % 1024), (double)(rand() % 1024)},
+					  {(double)(rand() % 15 - 7), (double)(rand() % 15 - 7)});
 	}
+
+	sys.addPlanet("Sun", 16, 1e10, {512, 512}, {-15, 0});
 
 	sys.start();
 }

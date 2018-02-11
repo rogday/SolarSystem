@@ -6,6 +6,7 @@
 class System {
   private:
 	sf::RenderWindow window;
+	sf::Texture bg;
 	std::vector<Planet> lst;
 
   private:

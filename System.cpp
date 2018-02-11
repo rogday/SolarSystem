@@ -1,13 +1,22 @@
 #include "System.h"
+#include <iostream>
 #include <thread>
 
 System::System() {
+	if (!bg.loadFromFile("textures/bg.png"))
+		throw("fukk");
+
+	bg.setRepeated(true);
+
 	sf::VideoMode vm = sf::VideoMode::getDesktopMode();
 
 	int size = std::min(vm.width, vm.height);
 
+	sf::ContextSettings set;
+	set.antialiasingLevel = 8;
+
 	window.create(sf::VideoMode(size, size), "Solar System",
-				  sf::Style::Titlebar | sf::Style::Close);
+				  sf::Style::Titlebar | sf::Style::Close, set);
 
 	window.setPosition(
 		sf::Vector2i((vm.width - size) / 2, (vm.height - size) / 2));
@@ -39,28 +48,46 @@ void System::parallelize(std::function<void(Planet &)> func) {
 }
 
 void System::start() {
+	std::cout << lst.size() << std::endl;
+
 	sf::Event event;
+	sf::Sprite sprite(bg);
+
+	int bx = bg.getSize().x;
+	int by = bg.getSize().y;
+
+	int wx = window.getSize().x;
+	int wy = window.getSize().y;
+
+	sprite.setTextureRect(sf::IntRect(-wx, -wy, bx + wx, by + wy));
+
+	long long x = 0, xp = x, y = 0, yp = y;
 
 	while (window.isOpen()) {
 		while (window.pollEvent(event))
 			if (event.type == sf::Event::Closed)
 				window.close();
 
-		window.clear(sf::Color::Black);
+		window.draw(sprite);
 
 		parallelize([this](Planet &plnt) { plnt.calc(this->lst); });
 		parallelize([](Planet &plnt) { plnt.apply(); });
 
-		int x = 0, y = 0;
+		x = y = 0;
 
 		for (auto &plnt : lst) {
 			x += plnt.getX();
 			y += plnt.getY();
 		}
+		x = window.getSize().x / 2 - x / lst.size();
+		y = window.getSize().y / 2 - y / lst.size();
+
+		sprite.setOrigin((int)sprite.getOrigin().x + x - xp,
+						 (int)sprite.getOrigin().y + y - yp);
 
 		for (auto &plnt : lst) {
-			plnt.correctX(window.getSize().x / 2 - x / lst.size());
-			plnt.correctY(window.getSize().y / 2 - y / lst.size());
+			plnt.correctX(x);
+			plnt.correctY(y);
 			plnt.draw(window);
 		}
 

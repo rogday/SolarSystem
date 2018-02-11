@@ -20,8 +20,11 @@ void Planet::calc(std::vector<Planet> &lst) {
 		dy += a * (plnt.pos.y - pos.y) / R;
 	}
 
-	tdpos.x = dpos.x + (dx + 0.5);
-	tdpos.y = dpos.y + (dy + 0.5);
+	LOG(dx);
+	LOG(dy);
+
+	tdpos.x = dpos.x + dx;
+	tdpos.y = dpos.y + dy;
 }
 void Planet::apply() {
 	dpos = tdpos;

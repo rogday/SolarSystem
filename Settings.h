@@ -3,8 +3,8 @@
 #define NDEBUG
 
 struct Dot {
-	long double x;
-	long double y;
+	double x;
+	double y;
 	Dot &operator+=(Dot &another) {
 		x += another.x;
 		y += another.y;
@@ -24,7 +24,7 @@ struct Dot {
 #endif
 
 namespace Settings {
-const long double G = 6.67408e-11;
-const long double Scale = 1e-4;
+const double G = 6.67408e-11;
+// const long double Scale = 1;
 const int Threads = 12;
 } // namespace Settings
