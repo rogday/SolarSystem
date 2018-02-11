@@ -17,12 +17,10 @@ int main(int argc, char const *argv[]) {
 		N = atoi(argv[1]);
 
 	for (int i = 0; i < N; ++i) {
-		sys.addPlanet("Sun", 8, 1e6 + rand() % 10000 - 5000,
+		sys.addPlanet("Sun", rand() % 30 + 1, rand(),
 					  {(double)(rand() % 1024), (double)(rand() % 1024)},
 					  {(double)(rand() % 15 - 7), (double)(rand() % 15 - 7)});
 	}
-
-	sys.addPlanet("Sun", 16, 1e10, {512, 512}, {15, 0});
 
 	sys.start();
 }

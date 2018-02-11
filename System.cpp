@@ -53,13 +53,8 @@ void System::start() {
 	sf::Event event;
 	sf::Sprite sprite(bg);
 
-	int bx = bg.getSize().x;
-	int by = bg.getSize().y;
-
-	int wx = window.getSize().x;
-	int wy = window.getSize().y;
-
-	sprite.setTextureRect(sf::IntRect(-wx, -wy, bx + wx, by + wy));
+	int bx = bg.getSize().x / 2;
+	int by = bg.getSize().y / 2;
 
 	long long x = 0, xp = x, y = 0, yp = y;
 
@@ -82,8 +77,8 @@ void System::start() {
 		x = window.getSize().x / 2 - x / lst.size();
 		y = window.getSize().y / 2 - y / lst.size();
 
-		sprite.setOrigin((int)sprite.getOrigin().x + xp - x,
-						 (int)sprite.getOrigin().y + yp - y);
+		sprite.setOrigin(((int)sprite.getOrigin().x + xp - x + bx) % bx,
+						 ((int)sprite.getOrigin().y + yp - y + by) % by);
 
 		for (auto &plnt : lst) {
 			plnt.correctX(x);

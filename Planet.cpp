@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+sf::Texture Planet::texture;
+
 void Planet::calc(std::vector<Planet> &lst) {
 	long double R, a, dx = 0, dy = 0;
 
@@ -11,8 +13,8 @@ void Planet::calc(std::vector<Planet> &lst) {
 
 		R = std::hypot(pos.x - plnt.pos.x, pos.y - plnt.pos.y);
 
-		// if (R < 1e-11)
-		//	continue;
+		if (R < Settings::Eps)
+			continue;
 
 		a = Settings::G * plnt.m / R * R;
 
@@ -30,4 +32,5 @@ void Planet::apply() {
 	dpos = tdpos;
 	pos += dpos;
 	circle.move(dpos.x, dpos.y);
+	sprite.move(dpos.x, dpos.y);
 }

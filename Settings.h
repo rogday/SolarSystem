@@ -27,4 +27,5 @@ namespace Settings {
 const double G = 6.67408e-11;
 // const long double Scale = 1;
 const int Threads = 12;
+const double Eps = 1e-18;
 } // namespace Settings
