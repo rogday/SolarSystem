@@ -82,8 +82,8 @@ void System::start() {
 		x = window.getSize().x / 2 - x / lst.size();
 		y = window.getSize().y / 2 - y / lst.size();
 
-		sprite.setOrigin((int)sprite.getOrigin().x + x - xp,
-						 (int)sprite.getOrigin().y + y - yp);
+		sprite.setOrigin((int)sprite.getOrigin().x + xp - x,
+						 (int)sprite.getOrigin().y + yp - y);
 
 		for (auto &plnt : lst) {
 			plnt.correctX(x);

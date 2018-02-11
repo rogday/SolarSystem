@@ -22,7 +22,7 @@ int main(int argc, char const *argv[]) {
 					  {(double)(rand() % 15 - 7), (double)(rand() % 15 - 7)});
 	}
 
-	sys.addPlanet("Sun", 16, 1e10, {512, 512}, {-15, 0});
+	sys.addPlanet("Sun", 16, 1e10, {512, 512}, {15, 0});
 
 	sys.start();
 }
