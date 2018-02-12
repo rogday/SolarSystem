@@ -7,7 +7,6 @@
 class Planet {
   private:
 	std::string name;
-	sf::CircleShape circle;
 	sf::Sprite sprite;
 	static sf::Texture texture;
 	double m;
@@ -17,31 +16,24 @@ class Planet {
 
   public:
 	Planet(std::string name, int r, double m, Dot pos, Dot dpos)
-		: name(name), circle(r, 30), sprite(), m(m), pos(pos), dpos(dpos),
-		  tdpos(pos) {
+		: name(name), sprite(), m(m), pos(pos), dpos(dpos), tdpos(pos) {
 		texture.loadFromFile("textures/sun.png");
 
 		sprite.setTexture(texture);
 		sprite.setScale(r / 60.0, r / 60.0);
 		sprite.setPosition(pos.x, pos.y);
 
-		// float factor = (float)m / r / (1 << 31); // how red
-
 		sprite.setColor(sf::Color(rand() % 256, rand() % 256, rand() % 256));
-
-		circle.setPosition(pos.x, pos.y);
 	}
 
 	int getX() const { return pos.x; }
 	int getY() const { return pos.y; }
 
 	void correctX(int x) {
-		circle.move(x, 0);
 		sprite.move(x, 0);
 		pos.x += x;
 	}
 	void correctY(int y) {
-		circle.move(0, y);
 		sprite.move(0, y);
 		pos.y += y;
 	}
