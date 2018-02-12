@@ -22,12 +22,12 @@ class Planet {
 		texture.loadFromFile("textures/sun.png");
 
 		sprite.setTexture(texture);
-		sprite.setScale(r / 120.0, r / 120.0);
+		sprite.setScale(r / 60.0, r / 60.0);
 		sprite.setPosition(pos.x, pos.y);
 
-		float factor = (float)m / r / (1 << 31); // how red
+		// float factor = (float)m / r / (1 << 31); // how red
 
-		sprite.setColor(sf::Color(255 * factor, 255, 255));
+		sprite.setColor(sf::Color(rand() % 256, rand() % 256, rand() % 256));
 
 		circle.setPosition(pos.x, pos.y);
 	}
