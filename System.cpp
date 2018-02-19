@@ -17,6 +17,7 @@ System::System() {
 
 	window.create(sf::VideoMode(size, size), "Solar System",
 				  sf::Style::Titlebar | sf::Style::Close, set);
+	window.setVerticalSyncEnabled(true);
 
 	window.setPosition(
 		sf::Vector2i((vm.width - size) / 2, (vm.height - size) / 2));
@@ -48,22 +49,25 @@ void System::parallelize(std::function<void(Planet &)> func) {
 }
 
 void System::start() {
-	std::cout << lst.size() << std::endl;
-
 	sf::Event event;
+
 	sf::Sprite sprite(bg);
+	sf::Shader shader;
+	shader.loadFromFile("shader.frag", sf::Shader::Fragment);
 
-	int bx = bg.getSize().x / 2;
-	int by = bg.getSize().y / 2;
+	sf::IntRect rect;
+	rect.width = window.getSize().x;
+	rect.height = window.getSize().y;
 
-	long long x = 0, xp = x, y = 0, yp = y;
+	sprite.setTextureRect(rect);
+	shader.setUniform("texture", sf::Shader::CurrentTexture);
+
+	long long x = 0, dx = x, y = 0, dy = y;
 
 	while (window.isOpen()) {
 		while (window.pollEvent(event))
 			if (event.type == sf::Event::Closed)
 				window.close();
-
-		window.draw(sprite);
 
 		parallelize([this](Planet &plnt) { plnt.calc(this->lst); });
 		parallelize([](Planet &plnt) { plnt.apply(); });
@@ -74,11 +78,14 @@ void System::start() {
 			x += plnt.getX();
 			y += plnt.getY();
 		}
-		x = window.getSize().x / 2 - x / lst.size();
-		y = window.getSize().y / 2 - y / lst.size();
 
-		sprite.setOrigin(((int)sprite.getOrigin().x + xp - x + bx) % bx,
-						 ((int)sprite.getOrigin().y + yp - y + by) % by);
+		dx += x = window.getSize().x / 2 - x / lst.size();
+		dy += y = window.getSize().y / 2 - y / lst.size();
+
+		shader.setUniform("mouse", sf::Glsl::Vec2((float)dx / bg.getSize().x,
+												  (float)dy / bg.getSize().y));
+
+		window.draw(sprite, &shader);
 
 		for (auto &plnt : lst) {
 			plnt.correctX(x);
