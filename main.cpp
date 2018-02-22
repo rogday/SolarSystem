@@ -16,6 +16,8 @@ int main(int argc, char const *argv[]) {
 	if (argc == 2)
 		N = atoi(argv[1]);
 
+	// sys.addPlanet("Sun", 20, 1e7, {512, 512}, {0, 0});
+
 	for (int i = 0; i < N; ++i) {
 		sys.addPlanet("Sun", rand() % 30 + 1, rand(),
 					  {(double)(rand() % 1024), (double)(rand() % 1024)},
