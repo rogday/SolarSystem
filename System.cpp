@@ -82,7 +82,7 @@ void System::start() {
 		dx += x = window.getSize().x / 2 - x / lst.size();
 		dy += y = window.getSize().y / 2 - y / lst.size();
 
-		shader.setUniform("mouse", sf::Glsl::Vec2((float)dx / bg.getSize().x,
+		shader.setUniform("shift", sf::Glsl::Vec2((float)dx / bg.getSize().x,
 												  (float)dy / bg.getSize().y));
 
 		window.draw(sprite, &shader);
