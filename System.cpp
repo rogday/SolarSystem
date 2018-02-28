@@ -49,6 +49,8 @@ void System::parallelize(std::function<void(Planet &)> func) {
 }
 
 void System::start() {
+	std::cout << "Using " << Settings::Threads << " threads." << std::endl;
+
 	sf::Event event;
 
 	sf::Sprite sprite(bg);
