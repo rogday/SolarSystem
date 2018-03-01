@@ -16,7 +16,7 @@ void Planet::calc(std::vector<Planet> &lst) {
 		if (R < Settings::Eps)
 			continue;
 
-		a = Settings::G * plnt.m / R * R;
+		a = Settings::G * plnt.m / R * R * Settings::Speed;
 
 		dx += a * (plnt.pos.x - pos.x) / R;
 		dy += a * (plnt.pos.y - pos.y) / R;

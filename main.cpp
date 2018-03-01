@@ -8,7 +8,8 @@ using namespace std;
 int main(int argc, char const *argv[]) {
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<long long> dis(1e7, 1e10);
+	uniform_int_distribution<long long> radius(1, 20), mass(1e7, 1e10),
+		position(0, 1024), speed(-25, 26);
 
 	cout << "Heoll, wrold!" << endl;
 
@@ -20,11 +21,9 @@ int main(int argc, char const *argv[]) {
 		N = atoi(argv[1]);
 
 	for (int i = 0; i < N; ++i) {
-		double m = dis(gen);
-		cout << m << endl;
-		sys.addPlanet("Sun", rand() % 30 + 1, m,
-					  {(double)(rand() % 1024), (double)(rand() % 1024)},
-					  {(double)(rand() % 15 - 7), (double)(rand() % 15 - 7)});
+		sys.addPlanet("Sun", radius(gen), mass(gen),
+					  {(double)position(gen), (double)position(gen)},
+					  {(double)speed(gen), (double)speed(gen)});
 	}
 
 	sys.start();

@@ -40,9 +40,7 @@ int main() {
 	m_shader.setUniform("texture", Shader::CurrentTexture);
 	sun_shader.setUniform("texture", Shader::CurrentTexture);
 
-	int cnt = 0;
-	int dir = 1;
-
+	Clock clock;
 	while (window.isOpen()) {
 		// Process events
 		Event event;
@@ -59,13 +57,7 @@ int main() {
 		float y = (float)(Mouse::getPosition(window).y) / m_texture.getSize().y;
 
 		m_shader.setUniform("mouse", Glsl::Vec2(x, y));
-		sun_shader.setUniform("time", cnt);
-
-		cnt += dir;
-		if (cnt >= (1 << 24))
-			dir *= -1;
-
-		// clock.restart();
+		m_shader.setUniform("time", clock.getElapsedTime().asSeconds());
 
 		// Clear the window
 		window.clear(Color(255, 128, 0));
