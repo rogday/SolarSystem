@@ -51,8 +51,7 @@ void System::parallelize(std::function<void(Planet &)> func) {
 }
 
 void System::start() {
-	if (int T = std::thread::hardware_concurrency(); T != 0)
-		Settings::Threads = T;
+	Settings::Threads = std::thread::hardware_concurrency() + 1;
 
 	std::cout << "Using " << Settings::Threads << " threads." << std::endl;
 
