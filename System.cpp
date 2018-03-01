@@ -2,6 +2,8 @@
 #include <iostream>
 #include <thread>
 
+int Settings::Threads = 1;
+
 System::System() {
 	if (!bg.loadFromFile("textures/bg.png"))
 		throw("fukk");
@@ -49,6 +51,9 @@ void System::parallelize(std::function<void(Planet &)> func) {
 }
 
 void System::start() {
+	if (int T = std::thread::hardware_concurrency(); T != 0)
+		Settings::Threads = T;
+
 	std::cout << "Using " << Settings::Threads << " threads." << std::endl;
 
 	sf::Event event;
